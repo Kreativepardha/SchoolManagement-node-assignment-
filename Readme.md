@@ -23,6 +23,17 @@ Ensure you have the following installed:
 - npm or yarn
 
 ---
+## folder Structure
+src/
+├── config/             # Configuration files (e.g., database, Redis)
+├── controller/         # Controllers for handling API requests
+├── middleware/         # Middlewares (e.g., rate limiter, error handlers)
+├── model/              # Database models
+├── repository/         # Database queries and interaction
+├── routes/             # API routes
+├── service/            # Business logic
+├── utils/              # Utility functions (e.g., validation schemas)
+└── app.ts              # Application entry point
 
 ## Setup
 
