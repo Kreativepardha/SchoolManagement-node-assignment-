@@ -1,6 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { addSchoolSchema, listSchoolSchema } from "../utils/validation";
 import { error } from "console";
+import { SchoolService } from "../service/schoolService";
+import logger from "../utils/logger";
 
 
 
@@ -11,33 +13,34 @@ import { error } from "console";
 
 
 export const SchoolController = {
- 
- 
-    async addSchoolSchema(req: Request, res: Response) {
+
+    async addSchoolSchema(req: Request, res: Response, next: NextFunction) {
         try {
             const data  = addSchoolSchema.parse(req.body);
-            // await 
-
+            await SchoolService.addSchool(data);
+            logger.info("Schools listed successfully");
             res.status(201).json({
-                message: 'School Added Succesffully'
+                message: 'School Added Succesffully',
+                data: data
             })
 
         } catch (err: any) {
-            res.status(400).json({
-                error: err.message
-            })
-            
+            logger.error(`Error in listSchools controller: ${error}`);
+            next(err);
         }
-    }
+    },
 
-    async listSchools(req: Request, res: Response) {
+    async listSchools(req: Request, res: Response, next: NextFunction) {
         try {
             const { latitude, longitude } = listSchoolSchema.parse(req.query);
-            // 
+            
+            const schools = await SchoolService.listSchools(Number(latitude), Number(longitude));
+
             res.status(200).json({
-                // schools,
+                schools,
                 message: ''
             })
+
         } catch (err: any) {
             res.status(400).json({ error: err.message });
         }

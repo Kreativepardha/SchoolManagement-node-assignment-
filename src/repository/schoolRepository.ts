@@ -1,4 +1,5 @@
 import { db } from "../config/db";
+import { School } from "../utils/schoolInterface";
 
 
 
@@ -15,6 +16,6 @@ export const SchoolRepository = {
 
     async getAllSchools() {
         const [rows] = await db.query(`SELECT * FROM schools`);
-        return rows;
+        return rows as School[];
     },
 }
